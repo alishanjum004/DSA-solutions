@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.*;
+
+/**
+ * 📌 Problem: Longest Palindromic Substring
+ *
+ * Given a string S, find the length of the longest palindromic substring.
+ *
+ * 🔹 Input:
+ * T - number of test cases
+ * For each test case:
+ *   N - length of the string
+ *   S - the string itself
+ *
+ * 🔹 Output:
+ * For each test case, print the length of the longest palindromic substring.
+ *
+ * 🔹 Constraints:
+ * 1 <= T <= 200
+ * 1 <= len(S) <= 10^3
+ */
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();  // Number of test cases
+        while (t-- > 0) {
+            int n = sc.nextInt();  // Length of the string
+            sc.nextLine();         // Consume the newline
+            String s = sc.nextLine(); // The string itself
+            String f = findLongestPalindrome(s);
+            System.out.println(f.length());
+        }
+    }
+
+    // Function to find longest palindromic substring
+    public static String findLongestPalindrome(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+
+        int start = 0, end = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandFromCenter(s, i, i);     // Odd length
+            int len2 = expandFromCenter(s, i, i + 1); // Even length
+            int len = Math.max(len1, len2);
+
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+    // Helper function to expand around center
+    public static int expandFromCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+}
