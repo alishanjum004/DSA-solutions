@@ -1,0 +1,102 @@
+import java.io.*;
+import java.util.*;
+
+/**
+ * 📌 Problem: Subsets of an Array
+ *
+ * Given an array of unique integers, print all non-empty subsets
+ * in lexicographical order for each test case.
+ *
+ * 🔹 Input:
+ * T - Number of test cases
+ * For each test case:
+ *    N - Number of elements in the array
+ *    N space-separated integers (unique)
+ *
+ * 🔹 Output:
+ * All non-empty subsets in lexicographical order, one per line.
+ * Separate test cases with a blank line.
+ *
+ * 🔹 Constraints:
+ * 1 <= T <= 100
+ * 1 <= N <= 10
+ * 0 <= A[i] <= 100
+ *
+ * 🔹 Example:
+ * Input:
+ * 3
+ * 3
+ * 5 15 3
+ * 2
+ * 57 96
+ * 4
+ * 3 15 8 23
+ *
+ * Output:
+ * 3
+ * 3 5
+ * 3 5 15
+ * 3 15
+ * 5
+ * 5 15
+ * 15
+ *
+ * 57
+ * 57 96
+ * 96
+ *
+ * 3
+ * 3 8
+ * 3 8 15
+ * 3 8 15 23
+ * 3 8 23
+ * 3 15
+ * 3 15 23
+ * 3 23
+ * 8
+ * 8 15
+ * 8 15 23
+ * 8 23
+ * 15
+ * 15 23
+ * 23
+ */
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();  // number of test cases
+
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int[] a = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextInt();
+            }
+
+            Arrays.sort(a);  // sort for lexicographical order
+            List<Integer> current = new ArrayList<>();
+
+            generateSubsets(a, 0, current);
+            System.out.println();  // blank line between test cases
+        }
+    }
+
+    // Recursive function to generate all subsets
+    public static void generateSubsets(int[] a, int idx, List<Integer> current) {
+        if (!current.isEmpty()) {
+            for (int val : current) {
+                System.out.print(val + " ");
+            }
+            System.out.println();
+        }
+
+        for (int i = idx; i < a.length; i++) {
+            current.add(a[i]);
+            generateSubsets(a, i + 1, current);
+            current.remove(current.size() - 1);  // backtrack
+        }
+    }
+}
