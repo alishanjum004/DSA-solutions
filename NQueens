@@ -1,0 +1,80 @@
+# 📌 Problem: N-Queens Puzzle Solver
+# Place N queens on an N x N chessboard such that no two queens attack each other.
+# For each test case, print all distinct solutions in lexicographical reverse order.
+# A '1' represents a queen, and a '0' represents an empty space.
+
+# 🔹 Input:
+# T - number of test cases
+# For each test case, a single integer N
+
+# 🔹 Output:
+# For each test case:
+# - All valid board configurations (separated by a blank line)
+# - Print -1 if no valid solution exists
+
+# 🔹 Constraints:
+# 1 <= T <= 10
+# 1 <= N <= 10
+
+# 🔹 Example:
+# Input:
+# 3
+# 4
+# 2
+# 1
+#
+# Output:
+# 0100
+# 0001
+# 1000
+# 0010
+#
+# 0010
+# 1000
+# 0001
+# 0100
+#
+# -1
+#
+# 1
+
+def solve_n_queens(t, test_cases):
+    def solve(n):
+        def is_safe(board, row, col):
+            return all(
+                board[i] != col and abs(board[i] - col) != row - i
+                for i in range(row)
+            )
+
+        def backtrack(row, board):
+            if row == n:
+                solutions.append(board[:])
+                return
+            for col in range(n):
+                if is_safe(board, row, col):
+                    board[row] = col
+                    backtrack(row + 1, board)
+
+        solutions = []
+        backtrack(0, [-1] * n)
+        return solutions
+
+    for idx, n in enumerate(test_cases):
+        if n == 2 or n == 3:
+            print("-1")
+        else:
+            solutions = solve(n)
+            solutions.sort()  # lexicographical order
+            for sol in solutions:
+                for row in sol:
+                    print("".join('1' if i == row else '0' for i in range(n)))
+                if sol != solutions[-1]:
+                    print()
+        if idx != t - 1:
+            print()
+
+# 🧪 Driver Code
+if __name__ == "__main__":
+    t = int(input())
+    test_cases = [int(input()) for _ in range(t)]
+    solve_n_queens(t, test_cases)
