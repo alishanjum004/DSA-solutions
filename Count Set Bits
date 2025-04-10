@@ -1,0 +1,52 @@
+/*
+ * Title: Count Set Bits
+ * Description: Given a number N, count the number of bits that are set to 1 in its binary representation.
+ *
+ * Problem Statement:
+ *   - The first line of input contains T - the number of test cases.
+ *   - Each of the next T lines contains a single integer N.
+ *
+ * Input Format:
+ *   - The first line: T (1 <= T <= 10^4)
+ *   - Followed by T lines, each with a number N (0 <= N <= 10^18)
+ *
+ * Output Format:
+ *   - For each test case, output the number of bits set to 1 in the binary representation of N.
+ *
+ * Sample Input:
+ *   3
+ *   4
+ *   15
+ *   10
+ *
+ * Sample Output:
+ *   1
+ *   4
+ *   2
+ *
+ * Explanation:
+ *   - Binary of 4 is 100 → 1 set bit
+ *   - Binary of 15 is 1111 → 4 set bits
+ *   - Binary of 10 is 1010 → 2 set bits
+ */
+
+#include <stdio.h>
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    while (t--) {
+        long long int n;
+        scanf("%lld", &n);
+        int count = 0;
+
+        // Using Brian Kernighan’s Algorithm to count set bits
+        while (n) {
+            n &= (n - 1);
+            count++;
+        }
+
+        printf("%d\n", count);
+    }
+    return 0;
+}
