@@ -1,0 +1,87 @@
+import java.io.*;
+import java.util.*;
+
+/**
+ * 📌 Problem: Window Maximum Sum
+ *
+ * Given an array of integers and a window size K, for each window of size K,
+ * find the maximum element and return the sum of these maximums.
+ *
+ * 🔹 Input:
+ * T - Number of test cases
+ * For each test case:
+ *   N K - Size of the array and window size
+ *   N space-separated integers
+ *
+ * 🔹 Output:
+ * For each test case, print the sum of max elements from each window.
+ *
+ * 🔹 Constraints:
+ * 1 <= T <= 1000
+ * 1 <= N <= 10000
+ * 1 <= K <= N
+ * -10^4 <= A[i] <= 10^4
+ *
+ * 🔹 Example:
+ * Input:
+ * 2
+ * 7 3
+ * 4 10 54 11 8 7 9
+ * 4 2
+ * 11 15 12 9
+ *
+ * Output:
+ * 182
+ * 42
+ */
+
+public class Main {
+
+    // Function to calculate sum of max in all K-sized windows
+    public static int sumOfWindowMaximums(int n, int k, int[] a) {
+        Deque<Integer> deque = new ArrayDeque<>();
+        int sum = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Remove indices out of current window
+            while (!deque.isEmpty() && deque.peek() <= i - k) {
+                deque.poll();
+            }
+
+            // Remove smaller elements from back
+            while (!deque.isEmpty() && a[deque.peekLast()] <= a[i]) {
+                deque.pollLast();
+            }
+
+            // Add current element index
+            deque.offer(i);
+
+            // Add max of current window
+            if (i >= k - 1) {
+                sum += a[deque.peek()];
+            }
+        }
+        return sum;
+    }
+
+    // Main function to read input and call the solver
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int t = Integer.parseInt(br.readLine());
+
+        for (int i = 0; i < t; i++) {
+            String[] line = br.readLine().split(" ");
+            int n = Integer.parseInt(line[0]);
+            int k = Integer.parseInt(line[1]);
+
+            int[] arr = Arrays.stream(br.readLine().split(" "))
+                              .mapToInt(Integer::parseInt)
+                              .toArray();
+
+            sb.append(sumOfWindowMaximums(n, k, arr)).append("\n");
+        }
+
+        System.out.print(sb);
+    }
+}
