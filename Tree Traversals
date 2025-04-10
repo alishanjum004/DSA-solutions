@@ -1,0 +1,135 @@
+import java.io.*;
+import java.util.*;
+
+/**
+ * 📌 Problem: Tree Traversals
+ *
+ * Given an array of unique elements, build a Binary Search Tree (BST) and perform:
+ * 🔹 Preorder Traversal (Root, Left, Right)
+ * 🔹 Inorder Traversal (Left, Root, Right)
+ * 🔹 Postorder Traversal (Left, Right, Root)
+ *
+ * 🔹 Input:
+ * T - number of test cases
+ * For each test case:
+ *   N - number of nodes
+ *   N space-separated integers - node values
+ *
+ * 🔹 Output:
+ * For each test case:
+ *   - Preorder traversal (space-separated)
+ *   - Inorder traversal (space-separated)
+ *   - Postorder traversal (space-separated)
+ *   (Each traversal in a new line, with a blank line after each test case)
+ *
+ * 🔹 Constraints:
+ * 1 <= T <= 100
+ * 1 <= N <= 1000
+ * 0 <= ar[i] <= 10000
+ *
+ * 🔹 Example:
+ * Input:
+ * 3
+ * 5
+ * 1 2 3 4 5
+ * 5
+ * 3 2 4 1 5
+ * 7
+ * 4 5 15 0 1 7 17
+ *
+ * Output:
+ * 1 2 3 4 5
+ * 1 2 3 4 5
+ * 5 4 3 2 1
+ *
+ * 3 2 1 4 5
+ * 1 2 3 4 5
+ * 1 2 5 4 3
+ *
+ * 4 0 1 5 15 7 17
+ * 0 1 4 5 7 15 17
+ * 1 0 7 17 15 5 4
+ */
+
+public class Main {
+
+    // Tree Node Definition
+    static class Node {
+        int val;
+        Node left, right;
+
+        Node(int val) {
+            this.val = val;
+            this.left = this.right = null;
+        }
+    }
+
+    // Insert a key into BST
+    Node insert(Node root, int key) {
+        if (root == null) return new Node(key);
+        if (key < root.val) root.left = insert(root.left, key);
+        else root.right = insert(root.right, key);
+        return root;
+    }
+
+    // Build BST from array
+    Node buildBST(int[] arr) {
+        Node root = null;
+        for (int val : arr) {
+            root = insert(root, val);
+        }
+        return root;
+    }
+
+    // Preorder Traversal
+    void preorder(Node root) {
+        if (root != null) {
+            System.out.print(root.val + " ");
+            preorder(root.left);
+            preorder(root.right);
+        }
+    }
+
+    // Inorder Traversal
+    void inorder(Node root) {
+        if (root != null) {
+            inorder(root.left);
+            System.out.print(root.val + " ");
+            inorder(root.right);
+        }
+    }
+
+    // Postorder Traversal
+    void postorder(Node root) {
+        if (root != null) {
+            postorder(root.left);
+            postorder(root.right);
+            System.out.print(root.val + " ");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Main bst = new Main();
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+            Node root = bst.buildBST(arr);
+
+            // Perform traversals
+            bst.preorder(root);
+            System.out.println();
+
+            bst.inorder(root);
+            System.out.println();
+
+            bst.postorder(root);
+            System.out.println(); // blank line after each test case
+        }
+    }
+}
