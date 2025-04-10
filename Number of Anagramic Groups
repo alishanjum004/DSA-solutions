@@ -1,0 +1,77 @@
+import java.io.*;
+import java.util.*;
+
+/**
+ * 📌 Problem: Number of Anagramic Groups
+ *
+ * You are given N strings of equal length. Count how many groups of anagrams exist.
+ * An anagramic group contains words that are anagrams of each other.
+ *
+ * 🔹 Input:
+ * T - Number of test cases
+ * For each test case:
+ *   N M - Number of strings and length of each string
+ *   N lines of strings (each of length M)
+ *
+ * 🔹 Output:
+ * For each test case, print the number of anagramic groups.
+ *
+ * 🔹 Constraints:
+ * 1 <= T <= 100
+ * 1 <= N <= 100
+ * 1 <= M <= 1000
+ * 'a' <= str[i] <= 'z'
+ *
+ * 🔹 Example:
+ * Input:
+ * 2
+ * 5 4
+ * arts
+ * rank
+ * star
+ * rant
+ * rats
+ * 
+ * 9 5
+ * tesla
+ * start
+ * slate
+ * salte
+ * tarts
+ * aster
+ * arson
+ * astle
+ * norse
+ *
+ * Output:
+ * 3
+ * 5
+ */
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine().trim());
+        StringBuilder res = new StringBuilder();
+
+        while (t-- > 0) {
+            String[] num = br.readLine().split(" ");
+            int n = Integer.parseInt(num[0]);
+            int m = Integer.parseInt(num[1]);
+
+            HashMap<String, Integer> map = new HashMap<>();
+
+            for (int i = 0; i < n; i++) {
+                String str = br.readLine().trim();
+                char[] chars = str.toCharArray();
+                Arrays.sort(chars);
+                String key = new String(chars);
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
+
+            res.append(map.size()).append("\n");
+        }
+
+        System.out.print(res);
+    }
+}
