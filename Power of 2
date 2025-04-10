@@ -1,0 +1,59 @@
+/*
+ * Title: Power of 2
+ * Description: Given a number, determine whether it is a power of 2.
+ *
+ * Problem Statement:
+ *   - The first line contains T - the number of test cases.
+ *   - Each of the next T lines contains a single positive integer N.
+ *
+ * Input Constraints:
+ *   1 <= T <= 10^4
+ *   1 <= N <= 10^18
+ *
+ * Output Format:
+ *   - For each test case, print "True" if N is a power of 2, otherwise print "False".
+ *
+ * Sample Input:
+ *   5
+ *   1
+ *   8
+ *   10
+ *   25
+ *   512
+ *
+ * Sample Output:
+ *   True
+ *   True
+ *   False
+ *   False
+ *   True
+ *
+ * Explanation:
+ *   - 1 = 2^0 → True
+ *   - 8 = 2^3 → True
+ *   - 10 → Not a power of 2 → False
+ *   - 25 → Not a power of 2 → False
+ *   - 512 = 2^9 → True
+ */
+
+#include <stdio.h>
+#include <stdbool.h>
+
+// Function to check if n is a power of 2
+bool isPowerOfTwo(unsigned long long int n) {
+    // Bitwise check: only powers of 2 have a single bit set
+    return n > 0 && (n & (n - 1)) == 0;
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+
+    while (t--) {
+        unsigned long long int n;
+        scanf("%llu", &n);
+        printf("%s\n", isPowerOfTwo(n) ? "True" : "False");
+    }
+
+    return 0;
+}
